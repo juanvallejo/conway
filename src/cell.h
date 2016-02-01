@@ -31,6 +31,9 @@ public:
 
 	bool is_dead();
 
+	void set_dead();
+	void set_alive();
+
 	// set adjacent neighbors -> top, bottom, left, right
 	void set_ncells(cell*, cell*, cell*, cell*);
 	void set_ntop(cell *);

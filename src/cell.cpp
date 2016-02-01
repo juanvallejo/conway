@@ -7,8 +7,12 @@ bool cell::is_dead() {
 	return !this->is_alive;
 }
 
-void cell::set_ncells(cell* ctop, cell* cbot, cell* cleft, cell* cright) {
-	// this->ncells(ctop, cbot, cleft, cright);
+void cell::set_dead() {
+	this->is_alive = false;
+}
+
+void cell::set_alive() {
+	this->is_alive = true;
 }
 
 void cell::set_ntop(cell *ncell) {
@@ -44,6 +48,13 @@ void cell::set_nright(cell *ncell) {
 	
 	this->ncells.right = ncell;
 
+}
+
+void cell::set_ncells(cell* ctop, cell* cbot, cell* cleft, cell* cright) {
+	this->set_ntop(ctop);
+	this->set_nbot(cbot);
+	this->set_nleft(cleft);
+	this->set_nright(cright);
 }
 
 cell::cell_ncells cell::get_ncells() {
