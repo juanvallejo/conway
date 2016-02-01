@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <time.h>
 #include <ncurses.h>
 #include <signal.h>
 #include "cell.h"
@@ -18,11 +19,16 @@ void draw(grid *conway) {
 
 	const char LINEB[] = "\n";
 
-	// TODO: traverse cell tree
+	// setup nanosleep
+	int sleep_m = 300;
+	struct timespec sleep = {0};
+	sleep.tv_sec = 0;
+	sleep.tv_nsec = sleep_m * 1000000L;
+
 	mvprintw(conway->get_height() / 2, 0, "Created new grid of dimensions %d x %d", conway->get_width(), conway->get_height());
 	refresh();
 
-	usleep(1e6);
+	nanosleep(&sleep, (struct timespec *)NULL);
 
 	while(true) {
 
@@ -72,7 +78,7 @@ void draw(grid *conway) {
 			refresh();
 		}
 
-		usleep(1e5);
+		nanosleep(&sleep, (struct timespec *)NULL);
 	}
 
 }
@@ -92,7 +98,7 @@ void init(int width, int height) {
 
 	grid* conway = new grid(width, height);
 	draw(conway);
-	
+
 	delete conway;
 	endwin();
 
