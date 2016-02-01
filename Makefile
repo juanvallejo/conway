@@ -25,7 +25,6 @@ CXXFLAGS   += -Wall -I. -std=c++11 -g
 LIBS = ncurses
 
 # linking flags here
-# TODO: add linux ncurses library
 LFLAGS   = -Wall -I. -lm -L /usr/local/lib
 LDLIBS  := $(addprefix -l,$(LIBS))
 
@@ -40,7 +39,13 @@ BINDIR   = bin
 
 SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
+
+ifeq ($(OS), Darwin)
 INCLUDE_DIR := /usr/local/opt/ncurses/include
+else
+INCLUDE_DIR := /usr/include
+endif
+
 CFLAGS   += $(foreach includedir,$(INCLUDE_DIR),-I$(includedir))
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 rm       = rm -f
