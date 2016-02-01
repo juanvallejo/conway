@@ -1,4 +1,4 @@
-
+#include <vector>
 #include "cell.h"
 
 cell::~cell() {}
@@ -15,48 +15,52 @@ void cell::set_alive() {
 	this->is_alive = true;
 }
 
+void cell::add_ncell(cell *ncell) {
+	this->ncells.push_back(ncell);
+}
+
 void cell::set_ntop(cell *ncell) {
 
 	if(!ncell) { return; }
-	if(this->ncells.top) { delete this->ncells.top; }
+	if(this->ncell_struct.top) { delete this->ncell_struct.top; }
 
-	this->ncells.top = ncell;
+	this->ncell_struct.top = ncell;
 }
 
 void cell::set_nbot(cell *ncell) {
 
 	if(!ncell) { return; }
-	if(this->ncells.bottom) { delete this->ncells.bottom; }
+	if(this->ncell_struct.bottom) { delete this->ncell_struct.bottom; }
 	
-	this->ncells.bottom = ncell;
+	this->ncell_struct.bottom = ncell;
 
 }
 
 void cell::set_nleft(cell *ncell) {
 
 	if(!ncell) { return; }
-	if(this->ncells.left) { delete this->ncells.left; }
+	if(this->ncell_struct.left) { delete this->ncell_struct.left; }
 	
-	this->ncells.left = ncell;
+	this->ncell_struct.left = ncell;
 
 }
 
 void cell::set_nright(cell *ncell) {
 
 	if(!ncell) { return; }
-	if(this->ncells.right) { delete this->ncells.right; }
+	if(this->ncell_struct.right) { delete this->ncell_struct.right; }
 	
-	this->ncells.right = ncell;
+	this->ncell_struct.right = ncell;
 
 }
 
-void cell::set_ncells(cell* ctop, cell* cbot, cell* cleft, cell* cright) {
+void cell::set_ncell_struct(cell* ctop, cell* cbot, cell* cleft, cell* cright) {
 	this->set_ntop(ctop);
 	this->set_nbot(cbot);
 	this->set_nleft(cleft);
 	this->set_nright(cright);
 }
 
-cell::cell_ncells cell::get_ncells() {
+std::vector<cell *> cell::get_ncells() {
 	return this->ncells;
 }

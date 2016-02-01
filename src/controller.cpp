@@ -4,26 +4,91 @@
 
 #include <iostream>
 #include <vector>
+#include <ncurses.h>
+#include <signal.h>
 #include "cell.h"
 #include "grid.h"
 
+void sigint_handler(int sig) {
+	endwin();
+	exit(0);
+}
+
 void draw(grid *conway) {
 
+	const char LINEB[] = "\n";
+
 	// TODO: traverse cell tree
+	mvprintw(conway->get_height() / 2, 0, "Created new grid of dimensions %d x %d", conway->get_width(), conway->get_height());
+	refresh();
+
+	usleep(1e6);
+
+	while(true) {
+
+		clear();
+		refresh();
+
+		for(int i = 0; i < conway->get_cell_count(); i++) {
+			
+			bool lineb = false;
+
+			if((i + 1) % conway->get_width() == 0) {
+				lineb = true;
+			}
+
+			if(conway->get_cell(i)->is_dead()) {
+
+				bool n_isAlive = false;
+
+				for(int x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
+					if(conway->get_cell(i)->get_ncells().at(x) && conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
+						n_isAlive = true;
+						break;
+					}
+				}
+
+				if(n_isAlive) {
+					printw("%3s%s", " o ", lineb ? LINEB : "");
+				} else {
+					printw("%3s%s", "   ", lineb ? LINEB : "");
+				}
+			} else {
+				printw("%3s%s", " x ", lineb ? LINEB : "");
+			}
+
+					// printw("%s%s", " o ", lineb ? LINEB : "");
+
+
+			refresh();
+		}
+
+		usleep(1e6);
+	}
 
 }
 
-void init() {
-	
-	grid* conway = new grid(5, 4);
-	std::cout << "Created new grid of dimensions " << conway->get_width() << " x " << conway->get_height() << std::endl;
-	std::cout << "Count " << conway->get_cell_count() << " cells" << std::endl;
+void init(int width, int height) {
+
+	int scr_width;
+	int scr_height;
+
+	// ncurses init
+	signal(SIGINT, sigint_handler);
+	initscr();
+	getmaxyx(stdscr, scr_width, scr_height);
+
+	if(width > scr_width) { width = scr_width; }
+	if(height > scr_height) { height = scr_height; }
+
+	grid* conway = new grid(width, height);
 
 	draw(conway);
+	endwin();
 
 }
 
 int main() {
-	init();
+	init(30, 20);
 	return 0;
 }

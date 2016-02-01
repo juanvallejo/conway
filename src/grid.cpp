@@ -17,38 +17,54 @@ grid::grid(int width, int height) {
 	this->dims.width = width;
 	this->dims.height = height;
 
-	cell* cell_mat[w][h];
+	cell* cell_mat[h][w];
 
-	for(int x = 0; x < w; x++) {
-		for(int y = 0; y < h; y++) {
+	for(int y = 0; y < h; y++) {
+		for(int x = 0; x < w; x++) {
 			c_dead = true;
-			if(std::rand() % 10 < 6) { c_dead = false; }
-			cell_mat[x][y] = new cell(c_dead);
+			if(std::rand() % 100 < 2) { c_dead = false; }
+			cell_mat[y][x] = new cell(c_dead);
 		}
 	}
 
 	// allocate neghbors to each cell
 	// and save matrix as vector<cells *>
-	for(int x = 0; x < w; x++) {
-		for(int y = 0; y < h; y++) {
+	for(int y = 0; y < h; y++) {
+		for(int x = 0; x < w; x++) {
 
-			if(y - 1 >= 0) {
-				cell_mat[x][y]->set_ntop(cell_mat[x][y - 1]);
+			if(x + 1 < w) {
+				cell_mat[y][x]->add_ncell(cell_mat[y][x + 1]);
 			}
 
 			if(y + 1 < h) {
-				cell_mat[x][y]->set_nbot(cell_mat[x][y + 1]);
+				cell_mat[y][x]->add_ncell(cell_mat[y + 1][x]);
+
+				if(x + 1 < w) {
+					cell_mat[y][x]->add_ncell(cell_mat[y + 1][x + 1]);
+				}
+
+				if(x - 1 >= 0) {
+					cell_mat[y][x]->add_ncell(cell_mat[y + 1][x - 1]);
+				}
 			}
 
 			if(x - 1 >= 0) {
-				cell_mat[x][y]->set_nleft(cell_mat[x - 1][y]);
+				cell_mat[y][x]->add_ncell(cell_mat[y][x - 1]);
 			}
 
-			if(x + 1 < w) {
-				cell_mat[x][y]->set_nright(cell_mat[x + 1][y]);
+			if(y - 1 >= 0) {
+				cell_mat[y][x]->add_ncell(cell_mat[y - 1][x]);
+
+				if(x + 1 < w) {
+					cell_mat[y][x]->add_ncell(cell_mat[y - 1][x + 1]);
+				}
+
+				if(x - 1 >= 0) {
+					cell_mat[y][x]->add_ncell(cell_mat[y - 1][x - 1]);
+				}
 			}
 
-			this->cells.push_back(cell_mat[x][y]);
+			this->cells.push_back(cell_mat[y][x]);
 
 		}
 	}

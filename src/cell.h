@@ -23,10 +23,11 @@ public:
 
 private:
 	bool is_alive;
-	cell::cell_ncells ncells;
+	cell::cell_ncells ncell_struct;
+	std::vector<cell *> ncells;
 
 public:
-	inline cell(bool dead) : ncells() { is_alive = !dead; };
+	inline cell(bool dead) : ncell_struct() { is_alive = !dead; };
 	~cell();
 
 	bool is_dead();
@@ -34,15 +35,17 @@ public:
 	void set_dead();
 	void set_alive();
 
+	void add_ncell(cell *);
+
 	// set adjacent neighbors -> top, bottom, left, right
-	void set_ncells(cell*, cell*, cell*, cell*);
+	void set_ncell_struct(cell*, cell*, cell*, cell*);
 	void set_ntop(cell *);
 	void set_nbot(cell *);
 	void set_nleft(cell *);
 	void set_nright(cell *);
 
 	// retrieve adjacent neighbors
-	cell_ncells get_ncells();
+	std::vector<cell *> get_ncells();
 
 };
 
