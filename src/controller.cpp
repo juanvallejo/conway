@@ -25,7 +25,9 @@ void draw(grid *conway) {
 	sleep.tv_sec = 0;
 	sleep.tv_nsec = sleep_m * 1000000L;
 
-	mvprintw(conway->get_height() / 2, 0, "Created new grid of dimensions %d x %d", conway->get_width(), conway->get_height());
+	mvprintw(conway->get_height() / 2, 0, 
+		"Created new grid of dimensions %d x %d", 
+		conway->get_width(), conway->get_height());
 	refresh();
 
 	nanosleep(&sleep, (struct timespec *)NULL);
@@ -38,40 +40,31 @@ void draw(grid *conway) {
 		for(int i = 0; i < conway->get_cell_count(); i++) {
 			
 			bool lineb = false;
-
-			if((i + 1) % conway->get_width() == 0) {
-				lineb = true;
-			}
+			if((i + 1) % conway->get_width() == 0) { lineb = true; }
 
 			if(conway->get_cell(i)->is_dead()) {
-
 				int n_count = 0;
-
 				for(size_t x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
-					if(conway->get_cell(i)->get_ncells().at(x) && conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
-						n_count++;
+					if(conway->get_cell(i)->get_ncells().at(x) 
+						&& conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
+						n_count++; 
 					}
 				}
 
-				if(n_count == 3) {
-					conway->get_cell(i)->set_alive();
-				}
-
+				if(n_count == 3) { conway->get_cell(i)->set_alive(); }
 				printw("%3s%s", "   ", lineb ? LINEB : "");
+
 			} else {
 
 				int n_count = 0;
-
 				for(size_t x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
-					if(conway->get_cell(i)->get_ncells().at(x) && conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
+					if(conway->get_cell(i)->get_ncells().at(x) 
+						&& conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
 						n_count++;
 					}
 				}
 
-				if(n_count < 2 || n_count > 3) {
-					conway->get_cell(i)->set_dead();
-				}
-
+				if(n_count < 2 || n_count > 3) { conway->get_cell(i)->set_dead(); }
 				printw("%3s%s", " x ", lineb ? LINEB : "");
 			}
 
