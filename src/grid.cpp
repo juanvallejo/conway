@@ -22,7 +22,7 @@ grid::grid(int width, int height) {
 	for(int y = 0; y < h; y++) {
 		for(int x = 0; x < w; x++) {
 			c_dead = true;
-			if(std::rand() % 100 < 2) { c_dead = false; }
+			if(std::rand() % 100 < 10) { c_dead = false; }
 			cell_mat[y][x] = new cell(c_dead);
 		}
 	}

@@ -39,31 +39,40 @@ void draw(grid *conway) {
 
 			if(conway->get_cell(i)->is_dead()) {
 
-				bool n_isAlive = false;
+				int n_count = 0;
 
 				for(int x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
 					if(conway->get_cell(i)->get_ncells().at(x) && conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
-						n_isAlive = true;
-						break;
+						n_count++;
 					}
 				}
 
-				if(n_isAlive) {
-					printw("%3s%s", " o ", lineb ? LINEB : "");
-				} else {
-					printw("%3s%s", "   ", lineb ? LINEB : "");
+				if(n_count == 3) {
+					conway->get_cell(i)->set_alive();
 				}
+
+				printw("%3s%s", "   ", lineb ? LINEB : "");
 			} else {
+
+				int n_count = 0;
+
+				for(int x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
+					if(conway->get_cell(i)->get_ncells().at(x) && conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
+						n_count++;
+					}
+				}
+
+				if(n_count < 2 || n_count > 3) {
+					conway->get_cell(i)->set_dead();
+				}
+
 				printw("%3s%s", " x ", lineb ? LINEB : "");
 			}
-
-					// printw("%s%s", " o ", lineb ? LINEB : "");
-
 
 			refresh();
 		}
 
-		usleep(1e6);
+		usleep(1e3);
 	}
 
 }
