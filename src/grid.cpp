@@ -73,7 +73,7 @@ grid::grid(int width, int height) {
 
 grid::~grid() {
 
-	for(int i = 0; i < this->cells.size(); i++) {
+	for(size_t i = 0; i < this->cells.size(); i++) {
 		if(this->cells.at(i) == NULL) { continue; }
 		delete this->cells.at(i);
 		this->cells.at(i) = NULL;
@@ -86,7 +86,8 @@ std::vector<cell *> grid::get_cells() {
 }
 
 cell* grid::get_cell(int c_index) {
-	if(this->cells.size() <= c_index || c_index < 0) { return 0; }
+	size_t c_index_t = c_index;
+	if(this->cells.size() <= c_index_t || c_index < 0) { return 0; }
 	return this->cells.at(c_index);
 }
 

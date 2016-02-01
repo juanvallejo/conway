@@ -47,7 +47,7 @@ void draw(grid *conway) {
 
 				int n_count = 0;
 
-				for(int x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
+				for(size_t x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
 					if(conway->get_cell(i)->get_ncells().at(x) && conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
 						n_count++;
 					}
@@ -62,7 +62,7 @@ void draw(grid *conway) {
 
 				int n_count = 0;
 
-				for(int x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
+				for(size_t x = 0; x < conway->get_cell(i)->get_ncells().size(); x++) {
 					if(conway->get_cell(i)->get_ncells().at(x) && conway->get_cell(i)->get_ncells().at(x)->is_dead() == false) {
 						n_count++;
 					}
