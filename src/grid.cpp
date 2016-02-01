@@ -22,7 +22,7 @@ grid::grid(int width, int height) {
 	for(int y = 0; y < h; y++) {
 		for(int x = 0; x < w; x++) {
 			c_dead = true;
-			if(std::rand() % 100 < 10) { c_dead = false; }
+			if(std::rand() % 100 < 15) { c_dead = false; }
 			cell_mat[y][x] = new cell(c_dead);
 		}
 	}
@@ -71,7 +71,15 @@ grid::grid(int width, int height) {
 
 }
 
-grid::~grid() {}
+grid::~grid() {
+
+	for(int i = 0; i < this->cells.size(); i++) {
+		if(this->cells.at(i) == NULL) { continue; }
+		delete this->cells.at(i);
+		this->cells.at(i) = NULL;
+	}
+
+}
 
 std::vector<cell *> grid::get_cells() {
 	return this->cells;

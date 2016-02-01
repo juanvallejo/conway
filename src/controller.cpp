@@ -72,7 +72,7 @@ void draw(grid *conway) {
 			refresh();
 		}
 
-		usleep(1e3);
+		usleep(1e5);
 	}
 
 }
@@ -91,8 +91,9 @@ void init(int width, int height) {
 	if(height > scr_height) { height = scr_height; }
 
 	grid* conway = new grid(width, height);
-
 	draw(conway);
+	
+	delete conway;
 	endwin();
 
 }
