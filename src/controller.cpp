@@ -20,14 +20,16 @@ void draw(grid *conway) {
 	const char LINEB[] = "\n";
 
 	// setup nanosleep
-	int sleep_m = 300;
+	int sleep_m = 328;
 	struct timespec sleep = {0};
 	sleep.tv_sec = 0;
 	sleep.tv_nsec = sleep_m * 1000000L;
 
-	mvprintw(conway->get_height() / 2, 0, 
-		"Created new grid of dimensions %d x %d", 
-		conway->get_width(), conway->get_height());
+	char o_str[100];
+	sprintf(o_str, "%s %d x %d", "Created new grid of dimensions", conway->get_width(), conway->get_height());
+	std::cout << strlen(o_str) << std::endl;
+
+	mvprintw(conway->get_height() / 2, (conway->get_width() / 2 + conway->get_width() / 2 - (strlen(o_str) / 2)), o_str);
 	refresh();
 
 	nanosleep(&sleep, (struct timespec *)NULL);
